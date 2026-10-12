@@ -1,4 +1,5 @@
-// Adaptado de cinco páginas de apuntes de clase. Las fotos originales no se publican.
+// Adaptado de cinco páginas de apuntes y tres imágenes de ejercicios de examen.
+// Las fotos originales no se publican.
 export const topics = {
   basics: ['Energía y corriente', 'Energia eta korrontea'],
   ohm: ['Ley de Ohm', 'Ohmen legea'],
@@ -44,8 +45,30 @@ export const cards = [
   ['meters','home','¿Qué se mide con el contador eléctrico?','Zer neurtzen du kontagailu elektrikoak?','La energía eléctrica consumida por la vivienda.','Etxebizitzak kontsumitutako energia elektrikoa.'],
   ['individual','home','¿Qué conecta una derivación individual?','Zer lotzen du banakako adarrak?','El contador con la instalación de cada vivienda.','Kontagailua etxebizitza bakoitzaren instalazioarekin.'],
   ['burns','safety','¿Qué daño puede causar la electricidad en la piel?','Zer kalte eragin dezake elektrizitateak azalean?','Quemaduras graves.','Erredura larriak.'],
-  ['heart','safety','¿Qué riesgo tiene la corriente al atravesar el cuerpo?','Zer arrisku dago korrontea gorputzetik igarotzean?','Puede alterar el corazón, causar asfixia y ser mortal.','Bihotza kaltetu, itomena eragin eta hilgarria izan daiteke.']
+  ['heart','safety','¿Qué riesgo tiene la corriente al atravesar el cuerpo?','Zer arrisku dago korrontea gorputzetik igarotzean?','Puede alterar el corazón, causar asfixia y ser mortal.','Bihotza kaltetu, itomena eragin eta hilgarria izan daiteke.'],
+  ['exam-tf-transformer','grid','Verdadero o falso: un transformador puede elevar o reducir la tensión alterna.','Egia ala gezurra: transformadore batek tentsio alternoa igo edo jaitsi dezake.','Verdadero. El transformador permite cambiar la tensión alterna.','Egia. Transformadoreak tentsio alternoa aldatzeko aukera ematen du.'],
+  ['exam-tf-voltage','grid','Verdadero o falso: para transportar la misma potencia, una tensión mayor permite reducir la intensidad y las pérdidas en los cables.','Egia ala gezurra: potentzia bera garraiatzeko, tentsio handiagoak intentsitatea eta kableetako galerak gutxitzea ahalbidetzen du.','Verdadero. Menos intensidad reduce el calentamiento de los cables.','Egia. Intentsitate txikiagoak kableen berotzea gutxitzen du.'],
+  ['exam-tf-thin','grid','Verdadero o falso: a igual material, longitud e intensidad, un cable más fino reduce las pérdidas eléctricas.','Egia ala gezurra: materiala, luzera eta intentsitatea berdinak izanik, kable meheagoak galera elektrikoak gutxitzen ditu.','Falso. Un cable más fino tiene más resistencia y, con la misma intensidad, pierde más energía en forma de calor.','Gezurra. Kable meheagoak erresistentzia handiagoa du eta, intentsitate berarekin, energia gehiago galtzen du bero moduan.'],
+  ['exam-tf-substation','grid','Verdadero o falso: en la subestación de distribución se vuelve a elevar la tensión.','Egia ala gezurra: banaketa-azpiestazioan tentsioa berriro igotzen da.','Falso. En esta etapa se reduce la tensión para la distribución.','Gezurra. Urrats honetan tentsioa jaisten da banaketarako.'],
+  ['exam-gap-voltage','grid','Completa: para transportar electricidad con menos pérdidas se utiliza una tensión ____ y una intensidad menor.','Bete hutsunea: elektrizitatea galera gutxiagorekin garraiatzeko tentsio ____ eta intentsitate txikiagoa erabiltzen dira.','Alta. Para la misma potencia, al elevar la tensión disminuye la intensidad.','Altua. Potentzia bererako, tentsioa igotzean intentsitatea txikitzen da.'],
+  ['exam-gap-thick','grid','Completa: los cables gruesos pueden soportar una intensidad más ____.','Bete hutsunea: kable lodiek intentsitate ____ jasan dezakete.','Alta. Una mayor sección permite transportar más corriente en condiciones adecuadas.','Handia. Sekzio handiagoak korronte gehiago garraiatzea ahalbidetzen du baldintza egokietan.'],
+  ['exam-gap-cost','grid','Completa: los cables gruesos usan más material y suelen ser más ____.','Bete hutsunea: kable lodiek material gehiago erabiltzen dute eta normalean ____ dira.','Caros. Necesitan más material conductor.','Garestiak. Material eroale gehiago behar dute.'],
+  ['exam-low-voltage','grid','¿Por qué no se transporta la misma potencia a larga distancia con una tensión baja?','Zergatik ez da potentzia bera distantzia luzeetara tentsio baxuan garraiatzen?','Porque requiere mayor intensidad y aumenta las pérdidas por calentamiento de los cables.','Intentsitate handiagoa behar duelako eta kableen berotzearen ondoriozko galerak handitzen direlako.'],
+  ['exam-meter-location','home','¿Dónde se sitúan los contadores en el esquema del edificio?','Non daude kontagailuak eraikinaren eskeman?','En la centralización o cuarto de contadores del edificio, antes de las derivaciones individuales.','Eraikinaren kontagailuen zentralizazioan edo gelan, banakako adarren aurretik.'],
+  ['exam-home-order','home','Ordena el recorrido desde la red hasta cada vivienda.','Ordenatu saretik etxebizitza bakoitzerainoko ibilbidea.','Red de baja tensión → acometida → caja general de protección → línea general de alimentación → contadores → derivaciones individuales.','Tentsio baxuko sarea → hartunea → babes-kutxa orokorra → elikadura-linea orokorra → kontagailuak → banakako adarrak.'],
+  ['exam-diagram-a','home','¿Qué elemento señala la letra A del esquema?','Zein elementu adierazten du eskemako A letrak?','La red de distribución de baja tensión.','Tentsio baxuko banaketa-sarea.'],
+  ['exam-diagram-b','home','¿Qué elemento señala la letra B del esquema?','Zein elementu adierazten du eskemako B letrak?','La acometida (hartunea).','Hartunea.'],
+  ['exam-diagram-c','home','¿Qué elemento señala la letra C del esquema?','Zein elementu adierazten du eskemako C letrak?','La caja general de protección.','Babes-kutxa orokorra.'],
+  ['exam-diagram-d','home','¿Qué elemento señala la letra D del esquema?','Zein elementu adierazten du eskemako D letrak?','La línea general de alimentación.','Elikadura-linea orokorra.'],
+  ['exam-diagram-e','home','¿Qué elemento señala la letra E del esquema?','Zein elementu adierazten du eskemako E letrak?','La centralización de contadores.','Kontagailuen zentralizazioa.'],
+  ['exam-diagram-f','home','¿Qué elemento señala la letra F del esquema?','Zein elementu adierazten du eskemako F letrak?','Las derivaciones individuales hacia las viviendas.','Etxebizitzetarako banakako adarrak.']
 ].map(([id,topic,qes,qeu,aes,aeu]) => ({id,topic,q:[qes,qeu],a:[aes,aeu]}));
+
+const examExisting = new Set(['step-up','lines','substation','order','distribution','connection','protection','link','meters','individual']);
+for (const card of cards) {
+  card.exam = card.id.startsWith('exam-') || examExisting.has(card.id);
+  card.diagram = card.id.startsWith('exam-diagram-');
+}
 
 export function shuffle(items, random = Math.random) {
   const result = [...items];
@@ -57,7 +80,28 @@ export function shuffle(items, random = Math.random) {
 }
 
 export function optionsFor(card) {
+  if (card.id.startsWith('exam-tf-')) {
+    const truth = ['exam-tf-transformer','exam-tf-voltage'].includes(card.id);
+    return shuffle([
+      {...card, label:truth?['Verdadero','Egia']:['Falso','Gezurra']},
+      {id:`${card.id}-wrong`,a:truth?['Falso','Gezurra']:['Verdadero','Egia']}
+    ]);
+  }
+  if (card.diagram) return shuffle([card, ...shuffle(cards.filter(c => c.diagram && c.id !== card.id)).slice(0,3)]);
   const distractors = {
+    'exam-gap-voltage': [['Baja','Baxua'],['Nula','Nulua'],['Siempre de 1 V','Beti 1 V-ekoa']],
+    'exam-gap-thick': [['Baja','Txikia'],['Nula','Nulua'],['Independiente de su sección','Sekzioarekiko independentea']],
+    'exam-gap-cost': [['Baratos','Merkeak'],['Gratuitos','Doakoak'],['Iguales en coste a todos los demás','Beste guztien kostu berekoak']],
+    'exam-low-voltage': [
+      ['Porque la baja tensión impide que se muevan los electrones.','Tentsio baxuak elektroien mugimendua eragozten duelako.'],
+      ['Porque con baja tensión siempre se pierde menos energía.','Tentsio baxuarekin beti energia gutxiago galtzen delako.'],
+      ['Porque la intensidad no cambia al cambiar la tensión para la misma potencia.','Potentzia bererako tentsioa aldatzean intentsitatea ez delako aldatzen.']
+    ],
+    'exam-home-order': [
+      ['Red → contadores → acometida → caja de protección → línea general → derivaciones.','Sarea → kontagailuak → hartunea → babes-kutxa → elikadura-linea → banakako adarrak.'],
+      ['Red → acometida → contadores → derivaciones → caja de protección → línea general.','Sarea → hartunea → kontagailuak → banakako adarrak → babes-kutxa → elikadura-linea.'],
+      ['Red → acometida → caja de protección → contadores → línea general → derivaciones.','Sarea → hartunea → babes-kutxa → kontagailuak → elikadura-linea → banakako adarrak.']
+    ],
     'formula-v': ['V = I / R', 'V = I + R', 'V = R / I'],
     'formula-i': ['I = V × R', 'I = R / V', 'I = V + R'],
     'formula-r': ['R = V × I', 'R = I / V', 'R = V + I'],

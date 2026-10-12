@@ -6,7 +6,7 @@ const t=(es,eu)=>lang===0?es:eu;
 function el(tag,text,cls){const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;}
 function btn(text,action,cls){const n=el('button',text,cls);n.addEventListener('click',action);return n;}
 function save(){if(!key)return;try{localStorage.setItem(key,JSON.stringify({known:[...known],mistakes:[...mistakes],best}));}catch{$('storage').textContent=t('No se puede guardar el progreso.','Ezin da aurrerapena gorde.');}}
-function filtered(){const topic=$('topic').value||'all';return cards.filter(c=>topic==='all'||c.topic===topic);}
+function filtered(){const topic=$('topic').value||'all';return cards.filter(c=>topic==='all'||(topic==='exam'?c.exam:topic==='diagram'?c.diagram:c.topic===topic));}
 function labels(){
  document.documentElement.lang=lang===0?'es':'eu';
  $('language').textContent=t('Euskara','Castellano');$('back').textContent=t('← Programas','← Programak');
@@ -14,10 +14,10 @@ function labels(){
  $('intro').textContent=t('La electricidad, paso a paso. Aprende, prueba y repasa.','Elektrizitatea, pausoz pauso. Ikasi, probatu eta errepasatu.');
  $('topicLabel').textContent=t('Tema','Gaia');$('lengthLabel').textContent=t('Longitud del quiz','Quiz luzera');$('length').options[1].textContent=t('Todas','Guztiak');
  const selected=$('topic').value||'all';$('topic').replaceChildren();
- for(const [id,name] of [['all',['Todos los temas','Gai guztiak']],...Object.entries(topics)]){const n=el('option',name[lang]);n.value=id;$('topic').append(n);}$('topic').value=selected;
+ for(const [id,name] of [['all',['Todos los temas','Gai guztiak']],['exam',['Repaso del examen · fichas nuevas','Azterketaren errepasoa · fitxa berriak']],['diagram',['Identificar el esquema · 6 elementos','Eskema identifikatu · 6 elementu']],...Object.entries(topics)]){const n=el('option',name[lang]);n.value=id;$('topic').append(n);}$('topic').value=selected;
  $('quizMode').setAttribute('aria-pressed',String(mode==='quiz'));$('flashMode').setAttribute('aria-pressed',String(mode==='flash'));
  $('notesTitle').textContent=t('Sobre los apuntes','Apunteei buruz');
- $('notes').textContent=t('Basado en las cinco páginas del cuaderno. Se han aclarado definiciones: la electricidad no es una fuente primaria de energía. Los ejercicios de Ohm son práctica añadida. Las cifras del cuaderno (26.000, 765.000, 33.000, 400, 25.000 y 220 V) son referencias de clase, no valores universales; no se preguntan como reglas generales. Las fotos originales no se publican.','Koadernoko bost orrialdeetan oinarritua. Definizioak argitu dira: elektrizitatea ez da lehen mailako energia-iturria. Ohmen ariketak praktika gehigarria dira. Koadernoko zenbakiak (26.000, 765.000, 33.000, 400, 25.000 eta 220 V) klaseko erreferentziak dira, ez balio unibertsalak; ez dira arau orokor gisa galdetzen. Jatorrizko argazkiak ez dira argitaratzen.');
+ $('notes').textContent=t('Basado en las cinco páginas del cuaderno y tres imágenes de ejercicios. El filtro «Repaso del examen» reúne verdadero/falso, huecos, orden del recorrido e identificación en un esquema propio; no garantiza qué preguntas pondrá el profesor. Se han aclarado definiciones: la electricidad no es una fuente primaria de energía. Los ejercicios de Ohm son práctica añadida. Las cifras del cuaderno (26.000, 765.000, 33.000, 400, 25.000 y 220 V) son referencias de clase, no valores universales; no se preguntan como reglas generales. Las fotos originales no se publican.','Koadernoko bost orrialdeetan eta ariketen hiru iruditan oinarritua. «Azterketaren errepasoa» iragazkiak egia/gezurra, hutsuneak, ibilbidearen ordena eta gure eskemako identifikazioa biltzen ditu; ez du irakaslearen galderak bermatzen. Definizioak argitu dira: elektrizitatea ez da lehen mailako energia-iturria. Ohmen ariketak praktika gehigarria dira. Koadernoko zenbakiak (26.000, 765.000, 33.000, 400, 25.000 eta 220 V) klaseko erreferentziak dira, ez balio unibertsalak; ez dira arau orokor gisa galdetzen. Jatorrizko argazkiak ez dira argitaratzen.');
  $('storage').textContent=key?t('Progreso por perfil en este navegador; no se sincroniza entre dispositivos.','Profil bakoitzaren aurrerapena nabigatzaile honetan; ez da gailuen artean sinkronizatzen.'):t('Puedes estudiar; el progreso no se guarda sin un perfil válido.','Ikas dezakezu; aurrerapena ez da gordetzen baliozko profilik gabe.');
  $('saved').textContent=t(`${known.size}/${cards.length} tarjetas aprendidas · ${mistakes.size} para repasar · Mejor quiz: ${best}%`,`${known.size}/${cards.length} txartel ikasita · ${mistakes.size} berrikusteko · Quiz onena: %${best}`);
 }
@@ -29,6 +29,7 @@ function render(){
  const card=deck[index],meta=el('div',undefined,'meta');meta.append(el('span',topics[card.topic][lang]),el('span',`${index+1} / ${deck.length}`));
  const progress=el('progress');progress.max=deck.length;progress.value=index;progress.setAttribute('aria-label',t('Progreso','Aurrerapena'));
  const question=el('h2',card.q[lang]);question.tabIndex=-1;area.append(meta,progress,question);
+ if(card.diagram){const picture=el('img',undefined,'diagram');picture.src='instalacion.svg';picture.alt=t('Esquema de un edificio: A es la línea exterior inferior; B su entrada al edificio; C la caja de entrada; D la línea hasta los contadores E; F las líneas hacia cada vivienda.','Eraikin baten eskema: A kanpoko beheko linea da; B eraikinerako sarrera; C sarrerako kutxa; D E kontagailuetarako linea; F etxebizitza bakoitzerako lineak.');area.append(picture);}
  if(mode==='flash'){
   if(flipped){area.append(el('div',card.a[lang],'answer'));const actions=el('div',undefined,'actions');actions.append(btn(t('Repasar otra vez','Berriro errepasatu'),()=>mark(false)),btn(t('¡Lo sé!','Badakit!'),()=>mark(true),'primary'));area.append(actions);}
   else area.append(btn(t('Mostrar respuesta','Erantzuna erakutsi'),()=>{flipped=true;render();},'primary'));
@@ -36,7 +37,7 @@ function render(){
   actions.append(previous,btn(t('Siguiente →','Hurrengoa →'),()=>{index++;flipped=false;render();}),btn(t('Solo pendientes','Berrikustekoak soilik'),()=>start(filtered().filter(c=>!known.has(c.id)))));area.append(actions);
  }else{
   if(!options.length)options=optionsFor(card);const list=el('div',undefined,'options'),response=answers[index];
-  for(const choice of options){const n=btn(choice.a[lang],()=>answer(choice.id));if(response){n.disabled=true;if(choice.id===card.id)n.className='correct';else if(choice.id===response.choice)n.className='wrong';}list.append(n);}area.append(list);
+  for(const choice of options){const n=btn((choice.label||choice.a)[lang],()=>answer(choice.id));if(response){n.disabled=true;if(choice.id===card.id)n.className='correct';else if(choice.id===response.choice)n.className='wrong';}list.append(n);}area.append(list);
   if(response){const feedback=el('div',undefined,'feedback');feedback.setAttribute('role','status');feedback.append(el('strong',response.correct?t('¡Correcto!','Zuzen!'):t('Vamos a repasarlo.','Errepasatuko dugu.')),el('p',card.a[lang]));area.append(feedback,btn(index===deck.length-1?t('Ver resultado','Emaitza ikusi'):t('Siguiente →','Hurrengoa →'),()=>{index++;options=[];render();$('activity').querySelector('h2')?.focus();},'primary'));}
  }
 }
