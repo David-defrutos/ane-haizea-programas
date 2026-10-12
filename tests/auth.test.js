@@ -19,6 +19,9 @@ function request(path = '/', cookie, options = {}) {
 function login(user, password, env = environment(), origin = 'https://family.example') {
   return worker.fetch(request('/login', null, { method: 'POST', headers: { Origin: origin, 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ user, password }).toString() }), env);
 }
+function guest(name, env = environment(), origin = 'https://family.example', extra = {}) {
+  return worker.fetch(request('/guest', null, { method: 'POST', headers: { Origin: origin, 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ name, ...extra }).toString() }), env);
+}
 test('all asset paths require authentication and responses cannot be cached', async () => {
   for (const path of ['/', '/portal.js', '/portal.css', '/haizea/irregular-verbs-quiz/', '/haizea/irregular-verbs-quiz/index.html', '/404.html', '/api/me']) {
     const response = await worker.fetch(request(path), environment());
@@ -36,7 +39,9 @@ test('both users can sign in, read their profile and access assets', async () =>
     for (const flag of ['HttpOnly', 'Secure', 'SameSite=Lax', 'Path=/']) assert.ok(cookie.includes(flag));
     const token = cookie.split(';')[0];
     const profile = await worker.fetch(request('/api/me', token), env);
-    assert.equal((await profile.json()).user, user);
+    const profileData = await profile.json();
+    assert.equal(profileData.user, user);
+    assert.equal(profileData.role, 'member');
     const asset = await worker.fetch(request('/haizea/irregular-verbs-quiz/', token), env);
     assert.equal(asset.status, 200);
     assert.match(await asset.text(), /protected asset/);
@@ -80,4 +85,79 @@ test('large bodies and unsupported form encodings are rejected', async () => {
   assert.equal((await login('ane', 'x'.repeat(5000))).status, 413);
   const response = await worker.fetch(request('/login', null, { method: 'POST', headers: { Origin: 'https://family.example', 'Content-Type': 'application/json' }, body: '{}' }), environment());
   assert.equal(response.status, 415);
+});
+test('guests enter without passwords and can open the quiz with their own signed profile', async () => {
+  const env = environment();
+  const response = await guest('  María   💫  ', env);
+  assert.equal(response.status, 303);
+  const cookieHeader = response.headers.get('Set-Cookie');
+  assert.match(cookieHeader, /Max-Age=86400/);
+  assert.match(cookieHeader, /HttpOnly/);
+  const cookie = cookieHeader.split(';')[0];
+  const profileResponse = await worker.fetch(request('/api/me', cookie), env);
+  const profile = await profileResponse.json();
+  assert.equal(profile.name, 'María 💫');
+  assert.equal(profile.role, 'guest');
+  assert.match(profile.user, /^guest-[a-f0-9-]{36}$/);
+  assert.equal((await worker.fetch(request('/haizea/irregular-verbs-quiz/', cookie), env)).status, 200);
+});
+test('two guests with the same name get independent identities', async () => {
+  const env = environment();
+  const first = await guest('Amiga', env);
+  const second = await guest('Amiga', env);
+  const profile1 = await (await worker.fetch(request('/api/me', first.headers.get('Set-Cookie').split(';')[0]), env)).json();
+  const profile2 = await (await worker.fetch(request('/api/me', second.headers.get('Set-Cookie').split(';')[0]), env)).json();
+  assert.notEqual(profile1.user, profile2.user);
+});
+test('guest names and submitted role fields cannot grant family privileges or private access', async () => {
+  const env = environment();
+  const response = await guest('Haizea', env, 'https://family.example', { user: 'haizea', role: 'member' });
+  const cookie = response.headers.get('Set-Cookie').split(';')[0];
+  const profile = await (await worker.fetch(request('/api/me', cookie), env)).json();
+  assert.equal(profile.role, 'guest');
+  assert.notEqual(profile.user, 'haizea');
+  for (const method of ['GET', 'POST']) {
+    const options = method === 'POST' ? { method, headers: { Origin: 'https://family.example' }, body: '' } : {};
+    assert.equal((await worker.fetch(request('/api/private/progress', cookie, options), env)).status, 403);
+  }
+  assert.equal((await worker.fetch(request('/api/private/progress'), env)).status, 401);
+  const family = await login('haizea', passwords.haizea, env);
+  // The namespace currently has no data endpoints; members reach the normal 404.
+  assert.equal((await worker.fetch(request('/api/private/progress', family.headers.get('Set-Cookie').split(';')[0]), env)).status, 404);
+});
+test('tampered, expired or differently signed guest cookies are rejected', async () => {
+  const env = environment();
+  const response = await guest('Amiga', env);
+  const cookie = response.headers.get('Set-Cookie').split(';')[0];
+  assert.equal((await worker.fetch(request('/', cookie.replace('guest.', 'ane.')), env)).status, 303);
+  const parts = cookie.slice(cookie.indexOf('=') + 1).split('.');
+  parts[2] = Buffer.from('Otro nombre').toString('base64url');
+  assert.equal((await worker.fetch(request('/', `__Host-family=${parts.join('.')}`), env)).status, 303);
+  parts[3] = '1';
+  parts[4] = createHmac('sha256', env.SESSION_SECRET).update(parts.slice(0, 4).join('.')).digest('hex');
+  assert.equal((await worker.fetch(request('/', `__Host-family=${parts.join('.')}`), env)).status, 303);
+  assert.equal((await worker.fetch(request('/', cookie), { ...env, SESSION_SECRET: 'a-new-test-only-signing-secret-for-rotation' })).status, 303);
+});
+test('guest form rejects invalid names, cross-origin posts, oversized input and rate excess', async () => {
+  for (const name of ['', ' ', 'a', 'x'.repeat(25), '<script>', 'abc\u202edef']) {
+    const response = await guest(name);
+    assert.equal(response.status, 400, name);
+    assert.equal(response.headers.get('Set-Cookie'), null);
+    assert.equal((await response.text()).includes('<script>'), false);
+  }
+  assert.equal((await guest('Amiga', environment(), 'https://evil.example')).status, 403);
+  assert.equal((await guest('x'.repeat(5000))).status, 413);
+  const env = environment(); env.LOGIN_LIMITER = { async limit() { return { success: false }; } };
+  assert.equal((await guest('Amiga', env)).status, 429);
+});
+test('guest logout clears the session cookie and login page offers both entry paths', async () => {
+  const env = environment();
+  const response = await guest('Amiga', env);
+  const cookie = response.headers.get('Set-Cookie').split(';')[0];
+  const logout = await worker.fetch(request('/logout', cookie, { method: 'POST', headers: { Origin: 'https://family.example' } }), env);
+  assert.match(logout.headers.get('Set-Cookie'), /Max-Age=0/);
+  const page = await (await worker.fetch(request('/login'), env)).text();
+  assert.match(page, /action="\/login"/);
+  assert.match(page, /action="\/guest"/);
+  assert.match(page, /Entrar sin contraseña/);
 });

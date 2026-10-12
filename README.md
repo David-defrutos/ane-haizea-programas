@@ -4,7 +4,17 @@ Un portal móvil para reunir juegos y herramientas familiares. Incluye **Verb Qu
 
 ## Código público, acceso protegido
 
-El repositorio es público: cualquiera puede leer o descargar los programas. El acceso al sitio alojado se verifica en un servidor Cloudflare Worker, con las cuentas `ane` y `haizea`. Las dos tienen acceso a todos los programas. Esto no hace privado el código ni sus recursos: no añadas fotos, información personal ni datos confidenciales al repositorio.
+El repositorio es público: cualquiera puede leer o descargar los programas. El acceso al sitio alojado se verifica en un servidor Cloudflare Worker, con las cuentas `ane` y `haizea` y perfiles temporales de invitados. Las dos cuentas familiares y los invitados tienen acceso al portal y al quiz actual. Esto no hace privado el código ni sus recursos: no añadas fotos, información personal ni datos confidenciales al repositorio.
+
+## Invitados y datos personales
+
+La entrada ofrece dos opciones: cuenta familiar con contraseña, o invitado con un nombre o apodo de 2 a 24 caracteres sin contraseña. Los invitados reciben una sesión firmada de 24 horas y un identificador aleatorio propio; escribir «Ane» o «Haizea» como nombre no concede acceso a esas cuentas. Se aplica el mismo límite de entradas por IP a ambos formularios.
+
+`/api/me` devuelve `user`, `name` y `role` (`member` o `guest`), validados por el servidor. Las rutas futuras de datos personales deben estar bajo `/api/private/`: el servidor rechaza visitantes sin sesión (401) e invitados (403). Cada operación de datos deberá comprobar además el propietario con `profile.user`; la existencia de una sesión familiar no autoriza consultar datos de otra cuenta. Nunca se debe decidir el permiso por un nombre, un campo del formulario o un indicador del navegador.
+
+Los datos personales futuros deben guardarse en almacenamiento de servidor, fuera del repositorio y de `public/`. Un ranking público deberá guardar solo los datos que se decida mostrar, como apodo y puntos, y diferenciar invitados de cuentas familiares. **En esta versión no hay base de datos ni ranking compartido online**; los resultados siguen siendo locales.
+
+El progreso de cada invitado queda separado por su identificador de sesión, incluso si dos invitados escriben el mismo nombre. Tras cerrar sesión o caducar y volver a entrar se crea un perfil nuevo: no se recupera progreso anterior ni se comprueba quién es dueño de un apodo. Un nombre sin contraseña no sirve para identificar de forma permanente a una persona.
 
 Las contraseñas no están en HTML ni JavaScript del navegador. El servidor recibe hashes PBKDF2 con sal individual mediante secretos de Cloudflare. Las sesiones usan cookies firmadas, HttpOnly, Secure y SameSite, con una duración de siete días. Cambiar las credenciales invalida las sesiones correspondientes. Todos los archivos pasan por el Worker antes de servirse (`run_worker_first: true`); no publiques `public/` en GitHub Pages ni en otro alojamiento estático sin esta protección.
 

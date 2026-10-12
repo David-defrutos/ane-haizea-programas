@@ -57,6 +57,7 @@ const response = await fetch('/api/me');
 if (!response.ok || response.redirected) { location.replace('/login'); return; }
 const profile = await response.json();
 document.getElementById('player').value = profile.name;
+if (profile.role === 'guest') document.querySelector('.badge').textContent = 'Perfil de invitado · 52 verbos';
 // V1 | V2 | V3 | Euskera de la foto | Castellano y sinónimos aceptados
 const raw=`be|was/were|been|izan; egon|ser; estar
 beat|beat|beaten|jo|golpear; pegar; vencer; batir

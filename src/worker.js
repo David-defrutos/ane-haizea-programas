@@ -3,6 +3,7 @@ import { loginPage } from './views.js';
 const encoder = new TextEncoder();
 const COOKIE = '__Host-family';
 const TTL = 60 * 60 * 24 * 7;
+const GUEST_TTL = 60 * 60 * 24;
 const USERS = ['ane', 'haizea'];
 const hex = bytes => Array.from(new Uint8Array(bytes), b => b.toString(16).padStart(2, '0')).join('');
 const unhex = text => Uint8Array.from(text.match(/../g) || [], pair => parseInt(pair, 16));
@@ -34,7 +35,21 @@ async function checkPassword(password, record) {
 async function session(request, env, users) {
   const cookie = (request.headers.get('Cookie') || '').split(';').map(s => s.trim()).find(s => s.startsWith(COOKIE + '='));
   if (!cookie) return null;
+  if (cookie.length > 1024) return null;
   const parts = cookie.slice(COOKIE.length + 1).split('.');
+  if (parts[0] === 'guest') {
+    if (parts.length !== 5) return null;
+    const [, id, encodedName, expiry, mac] = parts;
+    if (!/^[a-f0-9-]{36}$/.test(id) || !/^[A-Za-z0-9_-]+$/.test(encodedName) || !/^\d+$/.test(expiry) || Number(expiry) <= Date.now() / 1000 || Number(expiry) > Date.now() / 1000 + GUEST_TTL + 60 || !/^[a-f0-9]{64}$/.test(mac)) return null;
+    const valid = await crypto.subtle.verify('HMAC', await key(env.SESSION_SECRET), unhex(mac), encoder.encode(parts.slice(0, 4).join('.')));
+    if (!valid) return null;
+    let name;
+    try {
+      name = new TextDecoder('utf-8', { fatal: true }).decode(Uint8Array.from(atob(encodedName.replace(/-/g, '+').replace(/_/g, '/')), c => c.charCodeAt(0)));
+    } catch { return null; }
+    if (!validGuestName(name)) return null;
+    return { user: `guest-${id}`, name, role: 'guest' };
+  }
   if (parts.length !== 4) return null;
   const [user, expiry, version, mac] = parts;
   if (!USERS.includes(user) || !/^\d+$/.test(expiry) || Number(expiry) <= Date.now() / 1000 || Number(expiry) > Date.now() / 1000 + TTL + 60 || !/^[a-f0-9]{64}$/.test(mac)) return null;
@@ -43,7 +58,15 @@ async function session(request, env, users) {
   if (version !== expectedVersion) return null;
   const payload = parts.slice(0, 3).join('.');
   const valid = await crypto.subtle.verify('HMAC', await key(env.SESSION_SECRET), unhex(mac), encoder.encode(payload));
-  return valid ? user : null;
+  return valid ? { user, name: user === 'ane' ? 'Ane' : 'Haizea', role: 'member' } : null;
+}
+function validGuestName(name) {
+  return Array.from(name).length >= 2 && Array.from(name).length <= 24 && !/[\u0000-\u001f\u007f<>\u202a-\u202e\u2066-\u2069]/u.test(name);
+}
+async function guestCookie(name, env) {
+  const encodedName = btoa(String.fromCharCode(...encoder.encode(name))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  const payload = `guest.${crypto.randomUUID()}.${encodedName}.${Math.floor(Date.now() / 1000) + GUEST_TTL}`;
+  return `${COOKIE}=${payload}.${await signature(payload, env.SESSION_SECRET)}; Path=/; Secure; HttpOnly; SameSite=Lax; Max-Age=${GUEST_TTL}`;
 }
 function redirect(location, cookie) {
   const headers = { Location: location };
@@ -69,20 +92,28 @@ async function handle(request, env) {
   let users;
   try { users = await credentials(env); }
   catch { return new Response('El sitio todavía no tiene configuradas sus credenciales.', { status: 503 }); }
+  const profile = await session(request, env, users);
+  // Future personal-data endpoints must live here and scope every query to profile.user.
+  // A display name is never proof of account ownership, even if it is "Ane" or "Haizea".
+  if (url.pathname.startsWith('/api/private/')) {
+    if (!profile) return new Response('Inicia sesión con tu cuenta.', { status: 401 });
+    if (profile.role !== 'member') return new Response('Esta información es privada de las cuentas familiares.', { status: 403 });
+  }
   if (!['GET', 'HEAD', 'POST'].includes(request.method)) return new Response('Método no permitido.', { status: 405 });
   if (request.method === 'POST') {
     if (request.headers.get('Origin') !== url.origin) return new Response('Origen no permitido.', { status: 403 });
     if (url.pathname === '/logout') return redirect('/login', `${COOKIE}=; Path=/; Secure; HttpOnly; SameSite=Lax; Max-Age=0`);
-    if (url.pathname !== '/login') return new Response('No encontrado.', { status: 404 });
+    if (!['/login', '/guest'].includes(url.pathname)) return new Response('No encontrado.', { status: 404 });
+    const entryKind = url.pathname === '/guest' ? 'guest' : 'member';
     // Always require the configured rate limiter, including in development.
     if (!env.LOGIN_LIMITER) return new Response('Acceso temporalmente no disponible.', { status: 503 });
     const { success } = await env.LOGIN_LIMITER.limit({ key: request.headers.get('CF-Connecting-IP') || 'local' });
-    if (!success) return html(loginPage('Demasiados intentos. Espera un minuto y vuelve a probar.'), 429);
+    if (!success) return html(loginPage('Demasiados intentos. Espera un minuto y vuelve a probar.', entryKind), 429);
     if (!request.headers.get('Content-Type')?.startsWith('application/x-www-form-urlencoded')) return new Response('Formato no permitido.', { status: 415 });
     // Stream and bound the body rather than trusting Content-Length.
     let body = '';
     const reader = request.body?.getReader();
-    if (!reader) return html(loginPage('Revisa el usuario y la contraseña.'), 401);
+    if (!reader) return html(loginPage('Completa el formulario para entrar.', entryKind), 400);
     const decoder = new TextDecoder();
     let size = 0;
     while (true) {
@@ -94,6 +125,11 @@ async function handle(request, env) {
     }
     body += decoder.decode();
     const form = new URLSearchParams(body);
+    if (entryKind === 'guest') {
+      const name = (form.get('name') || '').trim().replace(/\s+/gu, ' ');
+      if (!validGuestName(name)) return html(loginPage('Escribe un nombre o apodo de 2 a 24 caracteres, sin símbolos < o >.', 'guest'), 400);
+      return redirect('/', await guestCookie(name, env));
+    }
     const user = (form.get('user') || '').toLowerCase();
     const password = form.get('password') || '';
     const valid = await checkPassword(password, users[USERS.includes(user) ? user : 'ane']);
@@ -103,11 +139,10 @@ async function handle(request, env) {
     const token = `${payload}.${await signature(payload, env.SESSION_SECRET)}`;
     return redirect('/', `${COOKIE}=${token}; Path=/; Secure; HttpOnly; SameSite=Lax; Max-Age=${TTL}`);
   }
-  const user = await session(request, env, users);
-  if (url.pathname === '/login') return user ? redirect('/') : html(loginPage());
-  if (!user) return redirect('/login');
-  if (url.pathname === '/api/me') return Response.json({ user, name: user === 'ane' ? 'Ane' : 'Haizea' });
-  if (url.pathname.startsWith('/api/') || url.pathname === '/logout') return new Response('No encontrado.', { status: 404 });
+  if (url.pathname === '/login') return profile ? redirect('/') : html(loginPage());
+  if (!profile) return redirect('/login');
+  if (url.pathname === '/api/me') return Response.json(profile);
+  if (url.pathname.startsWith('/api/') || ['/logout', '/guest'].includes(url.pathname)) return new Response('No encontrado.', { status: 404 });
   return env.ASSETS.fetch(request);
 }
 export default {
