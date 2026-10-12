@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="eu">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#123e45"><title>Tecno · Energia</title>
+  <link rel="stylesheet" href="style.css"><script type="module" src="app.js"></script>
+</head>
+<body><main>
+  <header><a href="/" id="back">← Programak</a><button id="language" aria-label="Cambiar idioma">Castellano</button></header>
+  <p class="eyebrow">TECNO · ENERGIA</p><h1 id="title">Piztu zure ideiak.</h1><p id="intro">Elektrizitatea, pausoz pauso. Ikasi, probatu eta errepasatu.</p>
+  <section class="settings" aria-label="Configuración">
+    <label><span id="topicLabel">Gaia</span><select id="topic"></select></label>
+    <label><span id="lengthLabel">Quiz luzera</span><select id="length"><option value="10">10</option><option value="all">Guztiak</option></select></label>
+  </section>
+  <nav aria-label="Modo de estudio"><button id="quizMode" aria-pressed="true">Quiz</button><button id="flashMode" aria-pressed="false">Flashcards</button></nav>
+  <p id="saved" class="muted"></p><section id="activity" class="activity" aria-label="Actividad"></section>
+  <details><summary id="notesTitle">Apunteei buruz</summary><p id="notes"></p></details>
+  <footer id="storage">Aurrerapena nabigatzaile honetan gordetzen da.</footer>
+  <noscript>Activa JavaScript para usar el quiz y las flashcards.</noscript>
+</main></body></html>
