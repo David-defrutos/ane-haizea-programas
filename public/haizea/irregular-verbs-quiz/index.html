@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#6542cc">
+<title>Verb Quest · Los 52 verbos</title>
+<style>
+:root{--ink:#29233b;--muted:#716a80;--purple:#6542cc;--light:#eee8ff;--green:#17664c;--red:#a23745;--line:#e6e0ee}*{box-sizing:border-box}body{margin:0;background:#f7f5ef;color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}button,input,select{font:inherit}button{cursor:pointer;touch-action:manipulation}button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid #f1a836;outline-offset:3px}button:disabled{cursor:default}main{max-width:680px;margin:auto;padding:22px 18px 40px}header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:25px}.brand{font-weight:850;font-size:21px;letter-spacing:-.8px}.badge{background:var(--light);color:var(--purple);padding:5px 10px;border-radius:30px;font-size:12px;font-weight:750}.eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:12px;font-weight:800;color:var(--purple)}h1{font-size:clamp(32px,7vw,46px);line-height:1.12;letter-spacing:-1.7px;margin:12px 0}h2{font-size:24px;letter-spacing:-.7px;margin:0 0 12px}h3{font-size:17px;margin:0 0 8px}p{margin:8px 0 16px}.muted,small{color:var(--muted)}.card{background:white;border:1px solid var(--line);border-radius:22px;padding:22px;margin:18px 0;box-shadow:0 6px 25px #2b205306}.row{display:flex;gap:10px;align-items:center;justify-content:space-between}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.choice,.secondary,.primary{border-radius:13px;padding:13px 16px;min-height:48px;font-weight:700}.primary{background:var(--purple);color:white;border:2px solid var(--purple);width:100%;margin-top:16px}.secondary{background:white;color:var(--ink);border:1px solid var(--line)}.choice{background:#faf9fc;border:2px solid var(--line);text-align:left;color:var(--ink)}.choice.selected{background:var(--light);border-color:var(--purple);color:var(--purple)}.choice.correct{background:#e7f7ec;border-color:var(--green);color:var(--green)}.choice.wrong{background:#fff0f0;border-color:var(--red);color:var(--red)}.choice:disabled{opacity:1}.sub{display:block;font-size:12px;font-weight:500;margin-top:3px}.label{display:block;font-size:14px;font-weight:750;margin:19px 0 8px}select,input{width:100%;padding:13px;border:1px solid #ccc4d9;border-radius:12px;background:white;color:var(--ink);min-height:48px}input.good{border:2px solid var(--green);background:#f2faf5}input.bad{border:2px solid var(--red);background:#fff5f4}.tips{background:#eee8ff;border-radius:16px;padding:16px;font-size:14px}.tips p:last-child{margin-bottom:0}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:20px 0}.stat{background:white;border:1px solid var(--line);border-radius:15px;text-align:center;padding:12px 4px}.stat b{display:block;font-size:23px;color:var(--purple)}.stat small{font-size:12px}.link{padding:10px 0;border:0;background:none;color:var(--purple);font-weight:750;min-height:44px}.bar{height:8px;background:#e8e2f1;border-radius:8px;overflow:hidden;margin:13px 0}.bar span{display:block;height:100%;background:var(--purple);transition:width .25s}.verb{font-size:55px;font-weight:850;text-align:center;letter-spacing:-1.5px;margin:5px 0 12px}.center{text-align:center}.notice{border-radius:14px;padding:16px;background:var(--light);margin:16px 0}.notice.success{background:#e7f7ec;color:var(--green)}.notice.failure{background:#fff0ef;color:#823240}.answerline{padding:7px 0;border-bottom:1px solid #d9cfdf}.answerline:last-child{border:0}.formresult{font-size:13px;margin-top:5px;color:var(--muted)}details{margin:13px 0}summary{cursor:pointer;font-weight:700;min-height:40px;padding:7px 0}.worditem{padding:13px 0;border-bottom:1px solid var(--line)}.worditem:last-child{border:0}.worditem b{color:var(--purple)}.worditem p{font-size:14px;margin:4px 0}.tag{font-size:11px;padding:3px 6px;border-radius:6px;background:var(--light);white-space:nowrap}.tiny{font-size:12px}.footer{font-size:12px;text-align:center;color:var(--muted);padding:20px 0}.hidden,[hidden]{display:none!important}.check{display:flex;gap:10px;align-items:start;font-size:14px;margin-top:15px}.check input{width:20px;min-height:20px;margin:3px 0;flex-shrink:0}.chips{display:flex;gap:8px;flex-wrap:wrap}.chips span{padding:6px 10px;border-radius:9px;background:#f3f0fa;font-size:14px}.resultnum{font-size:60px;color:var(--purple);font-weight:850;line-height:1.2}.switches button{flex:1}.switches{display:flex;gap:8px}.pill{padding:8px 12px;min-height:44px;border-radius:10px;background:white;border:1px solid var(--line);font-size:14px}.pill[aria-pressed=true]{background:var(--light);border-color:var(--purple);color:var(--purple)}@media(max-width:370px){main{padding:16px 12px}.card{padding:16px}.choice{padding:11px 9px;font-size:14px}.badge{font-size:11px}}@media(prefers-reduced-motion:reduce){*{transition:none!important}} 
+.gamehud{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin:12px 0}.gamehud div{background:var(--light);padding:10px 4px;border-radius:12px;text-align:center}.gamehud b{display:block;color:var(--purple);font-size:20px;font-variant-numeric:tabular-nums}.gamehud small{font-size:11px}.spark{animation:pop .4s ease-out}.scoreboard{width:100%;border-collapse:collapse;font-size:14px}.scoreboard td,.scoreboard th{padding:12px 5px;border-bottom:1px solid var(--line);text-align:left}.scoreboard th{font-size:11px;color:var(--muted)}.scoreboard td:last-child{text-align:right;font-weight:800;color:var(--purple)}.scoreboard small{display:block;font-size:11px}.achievement{background:#fff3cd;border-radius:14px;padding:12px;margin:12px 0;font-weight:750}.level{font-size:13px;color:var(--purple);font-weight:750;text-align:center;margin-bottom:20px}@keyframes pop{0%{transform:scale(.96)}60%{transform:scale(1.04)}100%{transform:scale(1)}}@media(prefers-reduced-motion:reduce){.spark{animation:none}}
+</style>
+</head>
+<body>
+<main>
+<header><a href="/" class="brand" style="color:inherit;text-decoration:none">← Verb Quest</a><span class="badge">52 verbos · a tu ritmo</span></header>
+<section id="home">
+<div class="eyebrow">Tu reto antes del examen</div>
+<h1>Hoy los practicas.<br>Mañana los clavas.</h1>
+<p class="muted">El infinitivo viene dado. Tú completas el pasado, el participio y el significado. Paso a paso, hasta recordar los 52.</p>
+<div class="stats" id="stats"></div>
+<div class="level" id="level"></div>
+<div class="card">
+<h2>Elige tu partida</h2>
+<label class="label" for="player">Nombre para el ranking</label><input id="player" maxlength="20" placeholder="Tu nombre o apodo" value="Jugadora" autocomplete="nickname">
+<label class="label">¿Cómo quieres responder?</label>
+<div class="grid" id="modeButtons"><button class="choice selected" data-mode="write" aria-pressed="true">✍️ Escribir<span class="sub">Como en el examen</span></button><button class="choice" data-mode="options" aria-pressed="false">🎯 4 opciones<span class="sub">Para coger confianza</span></button></div>
+<label class="label" for="language">Idioma del significado</label><select id="language"><option value="es">Castellano</option><option value="eu">Euskera</option><option value="either">Cualquiera de los dos</option></select>
+<label class="label" for="round">¿Qué repasamos?</label><select id="round"><option value="smart">Ronda rápida · hasta 10 pendientes</option><option value="all">Todos · los 52 de la foto</option><option value="weak">Solo fallados</option></select>
+<label class="check"><input id="exam" type="checkbox"><span><b>Simulacro de examen</b><br>52 verbos por escrito, sin pistas; corrección al terminar.</span></label>
+<button class="primary" id="start">¡Vamos allá! →</button>
+<p class="tiny muted" id="startNote" role="status"></p>
+</div>
+<div class="tips"><b>Tu plan exprés</b><p>1. Una ronda con opciones para familiarizarte.<br>2. Rondas por escrito y repaso de fallos.<br>3. Termina con un simulacro de los 52.</p><p>Se considera afianzado un verbo tras <b>dos aciertos seguidos por escrito y sin pistas</b>. Es una guía de repaso: vuelve a probarlos mañana.</p></div>
+<div class="card"><h3>⚡ Así ganas puntos</h3><p class="tiny">100 puntos por cada casilla correcta. Si aciertas las tres sin pista, hasta 150 extra por rapidez (el bonus baja durante los primeros 60 segundos) y +25 por cada verbo de la racha, hasta +125. Usar una pista reduce a la mitad los puntos base y elimina los bonus.</p><p class="tiny muted">No hay límite de tiempo. El simulacro también puntúa, pero te muestra el resultado al final. Los errores se pueden volver a practicar en otra partida.</p><button id="showScores" class="secondary" style="width:100%">🏆 Ver ranking y récords</button></div>
+<div class="row"><button class="link" id="showList">📖 Ver los 52 verbos</button><button class="link" id="showFamilies">🧠 Trucos</button></div>
+</section>
+<section id="play" hidden>
+<div class="row"><button class="link" id="exit">← Inicio</button><span id="sessionLabel" class="badge"></span></div>
+<div class="row"><b id="counter"></b><span id="streak" class="muted tiny"></span></div><div class="bar"><span id="progress"></span></div>
+<div class="gamehud"><div><b id="livePoints">0</b><small>Puntos</small></div><div><b id="timer">0 s</b><small>Esta pregunta</small></div><div><b id="speedBonus">+150</b><small>Bonus rapidez</small></div></div>
+<div class="card"><div class="eyebrow center">V1 · infinitivo</div><div id="verb" class="verb"></div><p id="instruction" class="center muted tiny"></p>
+<form id="answerForm" novalidate><div id="fields"></div><button id="check" class="primary" type="submit">Comprobar →</button></form>
+<button id="hintButton" class="link">💡 Dame una pista</button><div id="hint" class="tips" hidden></div>
+<div id="feedback" role="status" aria-live="polite" hidden></div><button id="next" class="primary" hidden>Siguiente →</button>
+</div>
+</section>
+<section id="results" hidden></section>
+<section id="scores" hidden><button class="link back">← Inicio</button><div class="eyebrow">Tus mejores partidas</div><h1>El salón de la fama.</h1><p class="muted">Ranking local de este móvil o navegador. Para comparar rondas de distinto tamaño usamos puntos por verbo.</p><label class="label" for="scoreFilter">Tipo de partida</label><select id="scoreFilter"><option value="write">✍️ Por escrito</option><option value="options">🎯 Con opciones</option><option value="exam">📝 Simulacros completos</option></select><div class="card" id="scoreTable"></div><div class="tips">Los resultados se guardan al terminar cada partida. Ponte el mismo apodo para seguir tus récords.</div></section>
+<section id="list" hidden><button class="link back">← Inicio</button><h1>Los 52, a mano.</h1><p class="muted">Transcritos de la foto. Las alternativas separadas por / también son válidas.</p><label class="label" for="search">Buscar un verbo o significado</label><input id="search" type="search" placeholder="go, ir, joan…"><div id="wordlist" class="card"></div><button id="reset" class="link">Borrar progreso y puntuaciones</button><div id="resetBox" hidden class="notice"><p>¿Borrar los aciertos, fallos y puntuaciones de este dispositivo?</p><button id="resetYes" class="secondary">Sí, borrar</button> <button id="resetNo" class="secondary">Cancelar</button></div></section>
+<section id="families" hidden><button class="link back">← Inicio</button><h1>Menos listas.<br>Más patrones.</h1><div class="card"><h3>🪨 Los que no cambian</h3><div class="chips"><span>bet · bet · bet</span><span>cost · cost · cost</span><span>cut · cut · cut</span><span>hit · hit · hit</span><span>hurt · hurt · hurt</span></div><p class="muted">Una forma, tres casillas.</p></div><div class="card"><h3>🎵 La melodía i → a → u</h3><p>begin → began → begun<br>drink → drank → drunk</p><p class="muted">Repítelos en voz alta siguiendo el ritmo.</p></div><div class="card"><h3>👯 V2 y V3 son gemelos</h3><p>bring → brought → brought<br>buy → bought → bought<br>catch → caught → caught<br>fight → fought → fought</p><p class="muted">También: bend, bleed, build, burn, dig, dream, feed, feel, find, get, hang, have, hear, hold, keep, lay, lead, learn y leave.</p></div><div class="card"><h3>🪃 El participio vuelve al inicio</h3><p>become → became → become<br>come → came → come</p></div><div class="card"><h3>⚡ Tres trampas típicas</h3><p><b>go → went → gone</b>: cada forma es distinta.<br><b>lay → laid → laid</b>: poner, colocar.<br><b>get → got → got</b>: esta es la forma que aparece en tu hoja.</p><p class="muted">En la hoja aparecen hanged/hung. Para «colgar/eseki», lo habitual es <b>hung</b>; hanged se usa normalmente para «ahorcar». Aquí se aceptan las dos formas de la hoja.</p></div><div class="tips"><b>El truco que más ayuda</b><p>Mira un verbo, tapa V2 y V3, dilo de memoria y comprueba. Si falla, vuelve a él después de otros verbos. Leerlo muchas veces ayuda menos que intentar recordarlo.</p></div></section>
+<div class="footer">Hecho para practicar a tu ritmo. <a href="/">Volver a tus programas</a>.<br><span id="storageInfo"></span></div>
+</main>
+<script>
+'use strict';
+(async () => {
+const response = await fetch('/api/me');
+if (!response.ok || response.redirected) { location.replace('/login'); return; }
+const profile = await response.json();
+document.getElementById('player').value = profile.name;
+// V1 | V2 | V3 | Euskera de la foto | Castellano y sinónimos aceptados
+const raw=`be|was/were|been|izan; egon|ser; estar
+beat|beat|beaten|jo|golpear; pegar; vencer; batir
+become|became|become|bihurtu; bilakatu|convertirse; volverse; llegar a ser; convertirse en
+begin|began|begun|hasi|empezar; comenzar; iniciar
+bend|bent|bent|tolestu|doblar; doblarse
+bet|bet|bet|apustu egin|apostar
+bite|bit|bitten|kosk egin|morder
+bleed|bled|bled|odola jariatu|sangrar
+blow|blew|blown|putz egin|soplar
+break|broke|broken|apurtu|romper; romperse
+bring|brought|brought|ekarri|traer
+build|built|built|eraiki|construir
+burn|burnt/burned|burnt/burned|erre|quemar; quemarse; arder
+buy|bought|bought|erosi|comprar
+catch|caught|caught|harrapatu; hartu|atrapar; coger; capturar
+choose|chose|chosen|aukeratu|elegir; escoger
+come|came|come|etorri|venir
+cost|cost|cost|kostatu|costar
+cut|cut|cut|moztu|cortar
+dig|dug|dug|aitzurtu; zuloa egin|cavar; excavar; hacer un agujero
+do|did|done|egin|hacer
+draw|drew|drawn|marraztu|dibujar
+dream|dreamt/dreamed|dreamt/dreamed|amets egin|soñar
+drink|drank|drunk|edan|beber
+drive|drove|driven|gidatu|conducir
+eat|ate|eaten|jan|comer
+fall|fell|fallen|erori|caer; caerse
+feed|fed|fed|elikatu|alimentar; dar de comer
+feel|felt|felt|sentitu|sentir; sentirse
+fight|fought|fought|borrokatu|luchar; pelear; combatir
+find|found|found|aurkitu|encontrar; hallar
+fly|flew|flown|hegan egin|volar
+forget|forgot|forgotten|ahaztu|olvidar; olvidarse
+forgive|forgave|forgiven|barkatu|perdonar
+freeze|froze|frozen|izoztu|congelar; congelarse; helar; helarse
+get|got|got|lortu; iritsi|conseguir; obtener; llegar
+give|gave|given|eman|dar
+go|went|gone|joan|ir
+grow|grew|grown|hazi|crecer; cultivar
+hang|hanged/hung|hanged/hung|eseki|colgar
+have|had|had|eduki; izan|tener; haber
+hear|heard|heard|entzun|oír; escuchar
+hide|hid|hidden|ezkutatu|esconder; ocultar; esconderse; ocultarse
+hit|hit|hit|kolpatu; jo|golpear; pegar
+hold|held|held|eutsi|sostener; sujetar; agarrar
+hurt|hurt|hurt|zauritu; min eman; min izan|herir; hacer daño; doler; lastimar
+keep|kept|kept|gorde; mantendu|guardar; mantener; conservar
+know|knew|known|jakin; ezagutu|saber; conocer
+lay|laid|laid|jarri; zabaldu|poner; colocar; extender
+lead|led|led|zuzendu; gidatu|dirigir; guiar; liderar; conducir
+learn|learnt/learned|learnt/learned|ikasi|aprender
+leave|left|left|utzi; irten|dejar; salir; marcharse; irse`;
+const verbs=raw.split('\n').map(line=>{const [v1,v2,v3,eu,es]=line.split('|');return {v1,v2,v3,eu,es};});
+const $=id=>document.getElementById(id), norm=s=>String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().replace(/\s+/g,' ');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;};
+const KEY='verbquest-photo52-v1-'+profile.user;let saved={},canStore=true;
+try{saved=JSON.parse(localStorage.getItem(KEY)||'{}');if(!saved||typeof saved!=='object'||Array.isArray(saved))saved={};localStorage.setItem(KEY,JSON.stringify(saved));}catch{canStore=false;}
+let scoreHistory=[];try{const h=JSON.parse(localStorage.getItem(KEY+'-scores')||'[]');if(Array.isArray(h))scoreHistory=h.filter(x=>x&&Number.isFinite(x.points)&&Number.isFinite(x.count)&&x.count>0).slice(-100);}catch{canStore=false;}
+let questionStart=0,sessionName='Jugadora',sessionSaved=false;const now=()=>performance.now();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(saved));localStorage.setItem(KEY+'-scores',JSON.stringify(scoreHistory));}catch{canStore=false;}storageText();}
+function tally(){let chain=0,total=0;for(const a of answers){const full=a.ok.every(Boolean);chain=full&&!a.hinted?chain+1:0;const base=a.ok.filter(Boolean).length*(a.hinted?50:100);a.speed=full&&!a.hinted?Math.max(0,Math.round(150*(1-a.elapsed/60))):0;a.combo=chain?25*Math.min(chain,5):0;a.points=base+a.speed+a.combo;total+=a.points;}return total;}
+function hud(){const secs=questionStart?(now()-questionStart)/1000:0;$('timer').textContent=Math.floor(secs)+' s';$('speedBonus').textContent=hinted?'+0':'+'+Math.max(0,Math.round(150*(1-secs/60)));$('livePoints').textContent=exam?'…':tally().toLocaleString('es-ES');}
+setInterval(()=>{if(!$('play').hidden&&!checked)hud();},250);
+function renderScores(){const subset=scoreHistory.filter(s=>s.type===$('scoreFilter').value).sort((a,b)=>b.points/b.count-a.points/a.count||b.points-a.points);$('scoreTable').innerHTML=subset.length?`<table class="scoreboard"><thead><tr><th>POS.</th><th>PARTIDA</th><th>PTS / VERBO</th></tr></thead><tbody>${subset.slice(0,15).map((s,i)=>`<tr><td>${i<3?['🥇','🥈','🥉'][i]:i+1}</td><td><b>${esc(s.name)}</b><small>${new Date(s.date).toLocaleDateString('es-ES')} · ${s.count} verbos · ${s.correct} completos</small><small>${s.points.toLocaleString('es-ES')} puntos · ${Math.round(s.seconds)} s en respuestas</small></td><td>${Math.round(s.points/s.count)}</td></tr>`).join('')}</tbody></table><p class="tiny muted" style="margin-top:14px">Se conservan las últimas 100 partidas. Las rondas de repaso también cuentan.</p>`:'Todavía no hay partidas terminadas en este modo. ¡Tu primer récord está por llegar!';}
+function storageText(){$('storageInfo').textContent=canStore?'Tu progreso se guarda en este navegador, si permite almacenamiento local.':'Este navegador no permite guardar: puedes practicar mientras la página siga abierta.';}
+function record(v){return saved[v.v1]||{seen:0,miss:0,streak:0,weak:false};}
+let mode='write',lang='es',queue=[],index=0,answers=[],checked=false,hinted=false,selected={},options={},exam=false,sessionStreak=0;
+function show(id){['home','play','results','list','families','scores'].forEach(x=>$(x).hidden=x!==id);window.scrollTo(0,0);}
+function home(){show('home');document.querySelectorAll('[data-mode]').forEach(b=>{b.classList.toggle('selected',b.dataset.mode===mode);b.setAttribute('aria-pressed',String(b.dataset.mode===mode));});const seen=verbs.filter(v=>record(v).seen>0).length,master=verbs.filter(v=>record(v).streak>=2).length,weak=verbs.filter(v=>record(v).weak).length;$('stats').innerHTML=`<div class="stat"><b>${seen}/52</b><small>Practicados</small></div><div class="stat"><b>${master}/52</b><small>Afianzados</small></div><div class="stat"><b>${weak}</b><small>Por reforzar</small></div>`;$('level').textContent=(master>=52?'👑 Leyenda de los 52':master>=30?'🚀 Experta en marcha':master>=10?'⚡ Cazadora de verbos':'🌱 Aprendiz con superpoderes')+' · '+scoreHistory.length+' partidas terminadas';storageText();}
+document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;document.querySelectorAll('[data-mode]').forEach(x=>{x.classList.toggle('selected',x===b);x.setAttribute('aria-pressed',String(x===b));});});
+function start(custom){exam=custom?false:$('exam').checked;lang=$('language').value;if(exam)mode='write';answers=[];index=0;sessionStreak=0;sessionSaved=false;sessionName=$('player').value.trim().slice(0,20)||'Jugadora';
+if(custom)queue=shuffle(custom);else if(exam||$('round').value==='all')queue=shuffle(verbs);else if($('round').value==='weak')queue=shuffle(verbs.filter(v=>record(v).weak));else{const pool=shuffle(verbs);pool.sort((a,b)=>{const priority=v=>record(v).weak?0:record(v).seen===0?1:record(v).streak<2?2:3;return priority(a)-priority(b);});queue=pool.slice(0,10);}
+if(!queue.length){$('startNote').textContent='¡No tienes fallos pendientes! Prueba una ronda por escrito o el simulacro.';return;}
+$('startNote').textContent='';show('play');renderQuestion();}
+$('start').onclick=()=>start();
+function meaningDisplay(v){return lang==='eu'?v.eu:lang==='either'?v.es+' · '+v.eu:v.es;}
+function meaningChoice(v){return (lang==='eu'?v.eu:v.es).split(';')[0].trim();}
+function formOK(value,expected){const parts=norm(value).split(/\s*(?:\/|,|;|\bo\b|\bor\b)\s*/).filter(Boolean),allowed=expected.split('/').map(norm);return parts.length>0&&parts.every(p=>allowed.includes(p));}
+function meaningOK(value,v){const allowed=(lang==='eu'?v.eu:lang==='es'?v.es:v.es+';'+v.eu).split(';').map(norm);const extra={bleed:['odol jario','odola jario','odol jariatu'],dig:['zulo egin'],bite:['hozka egin'],break:['hautsi'],catch:['atrapatu']};if(lang!=='es')allowed.push(...(extra[v.v1]||[]).map(norm));let n=norm(value).replace(/^(?:to|el|la)\s+/,'').replace(/[.!?]+$/,'');const parts=n.split(/\s*(?:;|,|\/|\bo\b|\bedo\b)\s*/).filter(Boolean);return parts.length>0&&parts.every(p=>allowed.includes(p));}
+function renderQuestion(){questionStart=now();checked=false;hinted=false;selected={};options={};const v=queue[index];$('counter').textContent=`Verbo ${index+1} de ${queue.length}`;$('streak').textContent=exam?'Sin corrección hasta el final':sessionStreak?`🔥 ${sessionStreak} seguidos`:'';$('progress').style.width=`${index/queue.length*100}%`;$('sessionLabel').textContent=exam?'Simulacro':mode==='write'?'Respuesta escrita':'4 opciones';$('verb').textContent=v.v1;$('instruction').textContent=mode==='write'?'Completa V2, V3 y el significado. Una variante o un significado válido basta.':'Elige una respuesta en cada apartado.';$('feedback').hidden=true;$('feedback').innerHTML='';$('next').hidden=true;$('check').hidden=false;$('check').textContent=exam?'Guardar y continuar →':'Comprobar →';$('hintButton').hidden=exam;$('hint').hidden=true;hud();
+const labels={v2:'V2 · Pasado simple',v3:'V3 · Participio pasado',meaning:'Significado · '+(lang==='eu'?'euskera':lang==='es'?'castellano':'euskera o castellano')};
+$('fields').innerHTML=['v2','v3','meaning'].map(field=>{if(mode==='write')return `<label class="label" for="a-${field}">${labels[field]}</label><input id="a-${field}" name="${field}" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="${field==='meaning'?'done':'next'}" aria-describedby="r-${field}"><div id="r-${field}" class="formresult"></div>`;
+const correct=field==='meaning'?meaningChoice(v):v[field];const pool=shuffle(verbs.filter(x=>x.v1!==v.v1)).map(x=>field==='meaning'?meaningChoice(x):x[field]);const unique=[...new Set(pool)].filter(x=>x!==correct&&(field==='meaning'?!meaningOK(x,v):!formOK(x,v[field])));options[field]=shuffle([correct,...unique.slice(0,3)]);return `<div class="label" id="label-${field}">${labels[field]}</div><div class="grid" role="group" aria-labelledby="label-${field}">${options[field].map((x,i)=>`<button type="button" class="choice" data-field="${field}" data-index="${i}" aria-pressed="false">${esc(x)}</button>`).join('')}</div>`;}).join('');
+document.querySelectorAll('[data-field]').forEach(b=>b.onclick=()=>{if(checked)return;const f=b.dataset.field;selected[f]=options[f][Number(b.dataset.index)];document.querySelectorAll(`[data-field="${f}"]`).forEach(x=>{x.classList.toggle('selected',x===b);x.setAttribute('aria-pressed',String(x===b));});});
+['v2','v3'].forEach((f,i)=>{const el=$('a-'+f);if(el)el.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();$('a-'+(i===0?'v3':'meaning')).focus();}};});}
+function updateRecord(a){const r=record(a.v);r.seen++;if(a.ok.every(Boolean)){r.weak=false;if(a.mode==='write'&&!a.hinted)r.streak++;}else{r.miss++;r.weak=true;r.streak=0;}saved[a.v.v1]=r;save();}
+function correction(a){return `<div class="answerline">${a.ok[0]?'✓':'✗'} <b>V2:</b> ${esc(a.v.v2)}</div><div class="answerline">${a.ok[1]?'✓':'✗'} <b>V3:</b> ${esc(a.v.v3)}</div><div class="answerline">${a.ok[2]?'✓':'✗'} <b>Significado:</b> ${esc(meaningDisplay(a.v))}</div>`;}
+$('answerForm').onsubmit=e=>{e.preventDefault();if(checked)return;const v=queue[index];const values=['v2','v3','meaning'].map(f=>mode==='write'?$('a-'+f).value.trim():selected[f]||'');if(values.some(x=>!x)){$('feedback').hidden=false;$('feedback').className='notice';$('feedback').textContent='Completa los tres apartados para continuar.';if(mode==='write')$('a-'+['v2','v3','meaning'][values.findIndex(x=>!x)]).focus();return;}
+checked=true;const a={v,values,ok:[formOK(values[0],v.v2),formOK(values[1],v.v3),meaningOK(values[2],v)],hinted,mode,elapsed:(now()-questionStart)/1000};answers.push(a);tally();hud();if(exam){if(index+1<queue.length){index++;renderQuestion();}else finish();return;}
+a.priorStreak=record(v).streak;updateRecord(a);const full=a.ok.every(Boolean);sessionStreak=full?sessionStreak+1:0;$('check').hidden=true;$('hintButton').hidden=true;$('next').hidden=false;$('next').textContent=index+1===queue.length?'Ver mi resultado →':'Siguiente →';$('feedback').hidden=false;$('feedback').className='notice spark '+(full?'success':'failure');$('feedback').innerHTML=`<h3 id="feedbackHeading">${full?(hinted?'¡Bien, con ayuda! 💡':'¡Las tres correctas! ✨'):'Vamos a fijarlo 🧠'}</h3><p id="questionAward"><b>+${a.points} puntos</b> · Rapidez +${a.speed} · Racha +${a.combo}</p>${correction(a)}${full?'':`<p class="tiny" style="margin-top:10px">Lee la secuencia en voz alta: ${esc(v.v1)} → ${esc(v.v2)} → ${esc(v.v3)}.</p>`}${v.v1==='be'?'<p class="tiny">Was con I/he/she/it; were con you/we/they. Se acepta una forma o ambas.</p>':''}${v.v1==='hang'?'<p class="tiny">Para colgar, lo habitual es hung. La hoja incluye hanged/hung.</p>':''}`;
+if(mode==='write'){['v2','v3','meaning'].forEach((f,i)=>{$('a-'+f).readOnly=true;$('a-'+f).className=a.ok[i]?'good':'bad';$('r-'+f).textContent=a.ok[i]?'✓ Correcto':'✗ Respuesta: '+(f==='meaning'?meaningDisplay(v):v[f]);});}else document.querySelectorAll('[data-field]').forEach(b=>{b.disabled=true;const f=b.dataset.field, val=options[f][Number(b.dataset.index)],right=f==='meaning'?meaningOK(val,v):formOK(val,v[f]);if(right)b.classList.add('correct');else if(val===selected[f])b.classList.add('wrong');});
+if(!a.ok[2]){const b=document.createElement('button');b.type='button';b.className='link';b.textContent='Mi traducción es otro sinónimo válido';b.onclick=()=>{a.ok[2]=true;const r=record(v);if(a.ok.every(Boolean)){r.weak=false;r.miss=Math.max(0,r.miss-1);if(mode==='write'&&!hinted)r.streak=(a.priorStreak||0)+1;}save();tally();hud();$('questionAward').textContent='+'+a.points+' puntos · Rapidez +'+a.speed+' · Racha +'+a.combo;b.replaceWith(document.createTextNode(' Traducción aceptada por ti.'));$('feedbackHeading').textContent=a.ok.every(Boolean)?'¡Las tres correctas! ✨':'Vamos a fijarlo 🧠';$('feedback').className='notice '+(a.ok.every(Boolean)?'success':'failure');if(mode==='write'){$('a-meaning').className='good';$('r-meaning').textContent='✓ Sinónimo aceptado por ti';}};$('feedback').append(b);}
+$('next').focus({preventScroll:true});};
+$('next').onclick=()=>{if(index+1<queue.length){index++;renderQuestion();window.scrollTo(0,0);}else finish();};
+$('hintButton').onclick=()=>{hinted=true;const v=queue[index];$('hint').hidden=false;$('hint').textContent=`V2 empieza por «${v.v2[0]}» y V3 por «${v.v3[0]}». Significado: ${meaningDisplay(v)}. Con pista practicas, pero este acierto no cuenta para afianzar.`;$('hintButton').hidden=true;hud();};
+function finish(){if(exam&&!sessionSaved)answers.forEach(updateRecord);const points=tally(),type=exam?'exam':mode;const oldBest=Math.max(0,...scoreHistory.filter(s=>s.type===type&&s.name===sessionName).map(s=>s.points/s.count));if(!sessionSaved){scoreHistory.push({name:sessionName,type,points,count:answers.length,correct:answers.filter(a=>a.ok.every(Boolean)).length,seconds:answers.reduce((n,a)=>n+a.elapsed,0),date:new Date().toISOString()});scoreHistory=scoreHistory.slice(-100);save();sessionSaved=true;}const personalRecord=points/answers.length>oldBest;const good=answers.filter(a=>a.ok.every(Boolean)).length,fields=answers.reduce((n,a)=>n+a.ok.filter(Boolean).length,0),missed=answers.filter(a=>!a.ok.every(Boolean));show('results');$('results').innerHTML=`<div class="eyebrow">${exam?'Simulacro terminado':'Ronda completada'}</div><h1>${good===answers.length?'¡Ronda redonda!':'Cada fallo es una pista.'}</h1><div class="card center"><div class="eyebrow">${esc(sessionName)}, has conseguido</div><div class="resultnum">${points.toLocaleString('es-ES')}</div><p><b>puntos · ${Math.round(points/answers.length)} por verbo</b></p>${personalRecord?'<div class="achievement spark">🏆 ¡Nuevo récord personal en este modo!</div>':''}${good===answers.length?'<div class="achievement">💎 Insignia: ronda perfecta</div>':''}<div class="resultnum" style="font-size:38px">${good}<span style="font-size:25px;color:var(--muted)"> / ${answers.length}</span></div><p>verbos completos correctos</p><p class="muted">${fields} de ${answers.length*3} apartados · Nota orientativa: ${(fields/(answers.length*3)*10).toFixed(1)}/10</p><p>${missed.length?'Repite los '+missed.length+' verbos pendientes para fijarlos.':'Siguiente reto: recordarlos por escrito sin pistas.'}</p>${answers.some(a=>a.hinted)?'<p class="tiny">Los aciertos con pista están incluidos en el resultado, pero no afianzan el verbo.</p>':''}</div>${missed.length?'<button class="primary" id="retry">🎯 Repetir los fallados</button>':''}<button class="primary" id="newWritten">✍️ Nueva ronda por escrito</button><button class="secondary" id="resultsScores" style="width:100%;margin-top:10px">🏆 Ver ranking</button><button class="secondary back" style="width:100%;margin-top:10px">Volver al inicio</button><div class="card"><h2>Tu corrección</h2>${answers.map(a=>`<details><summary>${a.ok.every(Boolean)?'✓':'↺'} ${esc(a.v.v1)} · ${a.ok.filter(Boolean).length}/3${a.hinted?' · con pista':''}</summary><p class="tiny muted">Tu respuesta: ${a.values.map(esc).join(' · ')}</p>${correction(a)}<p class="tiny">${a.points} puntos · ${Math.round(a.elapsed)} s${a.hinted?' · con pista':''}</p></details>`).join('')}</div>`;if($('retry'))$('retry').onclick=()=>{mode='write';start(missed.map(a=>a.v));};$('newWritten').onclick=()=>{mode='write';$('exam').checked=false;$('round').value='smart';start();};$('resultsScores').onclick=()=>{$('scoreFilter').value=type;show('scores');renderScores();};bindBack();}
+function list(){show('list');renderList();}
+function renderList(){const q=norm($('search').value);const filtered=verbs.filter(v=>norm(Object.values(v).join(' ')).includes(q));$('wordlist').innerHTML=filtered.length?filtered.map(v=>`<div class="worditem"><div class="row"><b>${esc(v.v1)} → ${esc(v.v2)} → ${esc(v.v3)}</b>${record(v).streak>=2?'<span class="tag">Afianzado</span>':record(v).weak?'<span class="tag">Repasar</span>':''}</div><p><b>EU</b> ${esc(v.eu)}<br><b>ES</b> ${esc(v.es)}</p></div>`).join(''):'No hay coincidencias.';}
+function bindBack(){document.querySelectorAll('.back').forEach(b=>b.onclick=home);}
+$('showScores').onclick=()=>{show('scores');renderScores();};$('scoreFilter').onchange=renderScores;$('exit').onclick=home;$('showList').onclick=list;$('showFamilies').onclick=()=>show('families');$('search').oninput=renderList;$('reset').onclick=()=>{$('resetBox').hidden=false;};$('resetNo').onclick=()=>{$('resetBox').hidden=true;};$('resetYes').onclick=()=>{saved={};scoreHistory=[];save();$('resetBox').hidden=true;renderList();};bindBack();home();
+})().catch(() => { document.getElementById('storageInfo').textContent='No se pudo cargar tu perfil. Recarga la página para volver a intentarlo.'; });
+</script>
+</body>
+</html>
