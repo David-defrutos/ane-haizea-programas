@@ -16,11 +16,11 @@ def main():
     users = {}
     for user in ('ane', 'haizea'):
         while True:
-            password = getpass.getpass(f'Contraseña para {user} (mínimo 12 caracteres): ')
+            password = getpass.getpass(f'Contraseña para {user} (mínimo 4 caracteres): ')
             confirm = getpass.getpass('Repite la contraseña: ')
-            if len(password) >= 12 and len(password) <= 256 and password == confirm:
+            if len(password) >= 4 and len(password) <= 256 and password == confirm:
                 break
-            print('Usa entre 12 y 256 caracteres y repite la misma contraseña.')
+            print('Usa entre 4 y 256 caracteres y repite la misma contraseña.')
         salt = secrets.token_bytes(16)
         users[user] = {'salt': salt.hex(), 'iterations': 100000,
                        'hash': hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000).hex()}

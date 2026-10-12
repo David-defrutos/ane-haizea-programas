@@ -21,7 +21,7 @@ Requisitos: Node.js, Python y una cuenta de Cloudflare con Workers habilitado.
    npx wrangler login
    ```
 
-2. Elige las contraseñas de las niñas en tu propia terminal. El programa pide cada contraseña sin mostrarla y no la almacena en texto:
+2. Elige las contraseñas de las niñas en tu propia terminal (mínimo 4 caracteres; pueden ser palabras fáciles de recordar). El programa pide cada contraseña sin mostrarla y no la almacena en texto:
 
    ```powershell
    python scripts/configure_credentials.py
