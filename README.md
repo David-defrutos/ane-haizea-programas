@@ -1,6 +1,8 @@
 # Ane y Haizea · Nuestros programas
 
-Un portal móvil para reunir juegos y herramientas familiares. Incluye **Verb Quest**, el quiz de 52 verbos irregulares en castellano y euskera.
+Un portal móvil para reunir juegos y herramientas familiares. Incluye **Verb Quest**, el quiz de 52 verbos irregulares en castellano y euskera, y **Lab Tools**, un juego de 17 instrumentos de laboratorio y sus funciones en inglés.
+
+El código completo de Lab Tools está en `public/programas/lab-tools-quiz/index.html`: contiene el HTML, los estilos y el JavaScript. Su progreso y ranking son locales y separados por perfil, igual que en Verb Quest.
 
 ## Código público, acceso protegido
 

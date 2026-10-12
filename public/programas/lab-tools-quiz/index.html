@@ -1,0 +1,375 @@
+<!-- Documento generado el 2026-10-04-2132 -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f7f6f1">
+<title>Lab Tools · Quiz</title>
+<style>
+:root{
+  --paper:#f7f6f1; --grid:#d9dde3; --ink:#2b2f8f; --pen:#1d1d1f;
+  --marker:#c8336b; --marker-soft:#f6d5e1; --red:#e0472f;
+  --ok:#2f9e5b; --ok-soft:#d6f2e1; --bad:#d63b3b; --bad-soft:#fadadb;
+  --card:#ffffffee;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0}
+body{
+  font-family:Nunito,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  color:var(--pen); background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:22px 22px;
+  padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0);
+}
+.app{max-width:520px;margin:0 auto;padding:16px 16px 28px;min-height:100%}
+.hand{font-family:"Gochi Hand","Comic Sans MS","Chalkboard SE",cursive}
+h1{font-family:"Gochi Hand",cursive;color:var(--marker);font-size:3rem;line-height:.95;margin:18px 0 4px;letter-spacing:1px;transform:rotate(-2deg)}
+h1 span{display:inline-block;border-bottom:8px solid var(--marker);padding-bottom:2px}
+.sub{color:var(--red);font-family:"Gochi Hand",cursive;font-size:1.4rem;margin:6px 0 20px}
+.btn{
+  display:block;width:100%;text-align:left;border:2px solid var(--pen);background:var(--card);
+  border-radius:14px;padding:14px 16px;margin:10px 0;font:inherit;font-size:1.05rem;color:var(--pen);
+  box-shadow:3px 3px 0 var(--pen);cursor:pointer;transition:transform .08s
+}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--pen)}
+.btn small{display:block;font-weight:600;opacity:.65;font-size:.85rem;margin-top:2px}
+.btn.big{font-weight:800}
+.btn.pink{background:var(--marker);color:#fff;border-color:var(--marker);box-shadow:3px 3px 0 #7a1d40}
+.row{display:flex;gap:10px}.row .btn{text-align:center}
+.top{display:flex;justify-content:space-between;align-items:center;font-weight:800;margin-bottom:8px}
+.pill{background:var(--card);border:2px solid var(--pen);border-radius:999px;padding:4px 12px;font-size:.95rem}
+.bar{height:10px;border:2px solid var(--pen);border-radius:99px;background:#fff;overflow:hidden;margin:6px 0 14px}
+.bar i{display:block;height:100%;background:var(--marker);transition:width .3s}
+.q{background:var(--card);border:2px dashed var(--ink);border-radius:16px;padding:18px;margin:6px 0 14px;text-align:center}
+.q .emoji{font-size:2.6rem}
+.q .tool{font-family:"Gochi Hand",cursive;font-size:2rem;color:var(--pen);letter-spacing:.5px}
+.q .def{font-family:"Gochi Hand",cursive;font-size:1.45rem;color:var(--ink);line-height:1.25}
+.q .ask{font-size:.85rem;opacity:.6;margin-bottom:6px}
+.opt{font-family:"Gochi Hand",cursive;font-size:1.25rem;line-height:1.2;color:var(--ink)}
+.opt.tooln{color:var(--pen);font-size:1.35rem}
+.opt.ok{background:var(--ok-soft);border-color:var(--ok);box-shadow:3px 3px 0 var(--ok)}
+.opt.bad{background:var(--bad-soft);border-color:var(--bad);box-shadow:3px 3px 0 var(--bad);animation:shake .3s}
+.opt:disabled{cursor:default}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.feedback{min-height:28px;text-align:center;font-weight:800;font-size:1.1rem}
+.streak{color:var(--marker)}
+.timer{font-size:1.3rem}
+.timer.low{color:var(--bad);animation:pulse .6s infinite}
+@keyframes pulse{50%{opacity:.4}}
+.score-big{font-family:"Gochi Hand",cursive;font-size:4rem;color:var(--marker);text-align:center;line-height:1;margin:10px 0}
+.center{text-align:center}
+.stars{font-size:2.4rem;text-align:center;letter-spacing:6px}
+.list{background:var(--card);border:2px solid var(--pen);border-radius:14px;padding:6px 14px;margin:10px 0}
+.list .it{padding:10px 0;border-bottom:1px dashed var(--grid)}
+.list .it:last-child{border:0}
+.list b{font-family:"Gochi Hand",cursive;font-size:1.25rem}
+.list .d{font-family:"Gochi Hand",cursive;color:var(--ink);font-size:1.15rem}
+.rank{width:100%;border-collapse:collapse}
+.rank td{padding:8px 4px;border-bottom:1px dashed var(--grid)}
+.rank td:first-child{width:34px;font-weight:800}
+.rank td:last-child{text-align:right;font-weight:800;color:var(--marker)}
+.rank tr.me td{background:var(--marker-soft)}
+.tabs{display:flex;gap:6px;margin:8px 0}
+.tabs button{flex:1;border:2px solid var(--pen);background:#fff;border-radius:10px;padding:8px 4px;font:inherit;font-size:.85rem;font-weight:800}
+.tabs button.on{background:var(--pen);color:#fff}
+input[type=text]{width:100%;font:inherit;font-size:1.2rem;padding:12px;border:2px solid var(--pen);border-radius:12px;background:#fff}
+h2{font-family:"Gochi Hand",cursive;font-size:2rem;margin:10px 0;color:var(--red)}
+.hidden{display:none}
+.burst{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.burst span{position:absolute;top:-40px;font-size:1.8rem;animation:fall 2.2s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+.flash{animation:pop .35s}
+@keyframes pop{50%{transform:scale(1.15)}}
+.foot{font-size:.8rem;opacity:.55;text-align:center;margin-top:18px}
+</style>
+</head>
+<body>
+<nav style="max-width:520px;margin:auto;padding:16px 16px 0"><a href="/" style="color:var(--ink);font-weight:800">← Nuestros programas</a><span id="profileLabel" style="display:block;font-size:.85rem;margin-top:6px"></span></nav>
+<div class="app" id="app"></div>
+<div class="burst" id="burst"></div>
+
+<script>
+(async () => {
+const response = await fetch('/api/me');
+if (!response.ok || response.redirected) { location.replace('/login'); return; }
+const profile = await response.json();
+document.getElementById('profileLabel').textContent = profile.role === 'guest' ? 'Perfil de invitado · progreso local' : 'Mi perfil · progreso local';
+// ============ DATOS (de los apuntes) ============
+const TOOLS = [
+  {id:"bunsen",  name:"Bunsen burner",       e:"🔥", def:"It's used to heat substances."},
+  {id:"gradcyl", name:"Graduated cylinder",  e:"📏", def:"It's used to measure liquid volumes accurately."},
+  {id:"rod",     name:"Stirring rod",        e:"🥢", def:"It's used to stir."},
+  {id:"watch",   name:"Watch glass",         e:"🔍", def:"It's used to hold solids while being weighed, or as a cover for a beaker."},
+  {id:"beaker",  name:"Beaker",              e:"🥛", def:"It's used to hold liquids."},
+  {id:"thermo",  name:"Thermometer",         e:"🌡️", def:"It's used to measure temperature."},
+  {id:"balance", name:"Balance",             e:"⚖️", def:"It's used to determine weight."},
+  {id:"dropper", name:"Dropper pipette",     e:"💧", def:"It's used to transfer small amounts of liquids drop by drop."},
+  {id:"volflask",name:"Volumetric flask",    e:"🍶", def:"It's used to make precise chemical solutions."},
+  {id:"funnel",  name:"Funnel",              e:"🔻", def:"It's used to pour liquids or other substances through a small opening."},
+  {id:"volpip",  name:"Volumetric pipette",  e:"🧫", def:"It's used to measure small amounts of liquids accurately."},
+  {id:"spatula", name:"Spatula",             e:"🥄", def:"It's a small scoop used to transfer powder and crystal chemicals."},
+  {id:"rack",    name:"Test tube rack",      e:"🗄️", def:"It holds 5–6 test tubes in a row."},
+  {id:"wash",    name:"Wash bottle",         e:"🧴", def:"It's used to rinse laboratory glassware."},
+  {id:"erlen",   name:"Erlenmeyer flask",    e:"⚗️", def:"It's used to hold liquids and it has a narrow neck to prevent splashes."},
+  {id:"tube",    name:"Test tube",           e:"🧪", def:"It's an open tube used to hold liquids."},
+  {id:"filter",  name:"Filter paper",        e:"📄", def:"It's used to separate solids from liquids."}
+];
+// Parejas demasiado parecidas: no salen juntas como opciones
+const AVOID = [["beaker","tube"]];
+
+const MODES = {
+  t2d:  {label:"Herramienta → definición", short:"Herr → Def", n:10},
+  d2t:  {label:"Definición → herramienta", short:"Def → Herr", n:10},
+  rush: {label:"Contrarreloj 60 s",        short:"60 s",       secs:60}
+};
+
+// ============ ALMACENAMIENTO (con respaldo en memoria) ============
+const mem = {};
+const store = {
+  get(k,d){ try{ const v=localStorage.getItem(k+'-'+profile.user); return v?JSON.parse(v):d; }catch(e){ return k in mem?mem[k]:d; } },
+  set(k,v){ try{ localStorage.setItem(k+'-'+profile.user,JSON.stringify(v)); }catch(e){ mem[k]=v; } }
+};
+
+// ============ SONIDO ============
+let actx=null;
+function beep(type){
+  try{
+    actx = actx || new (window.AudioContext||window.webkitAudioContext)();
+    const notes = type==="ok" ? [660,880] : type==="end" ? [523,659,784,1046] : [220,180];
+    notes.forEach((f,i)=>{
+      const o=actx.createOscillator(), g=actx.createGain();
+      o.type = type==="bad" ? "sawtooth" : "triangle";
+      o.frequency.value=f; o.connect(g); g.connect(actx.destination);
+      const t=actx.currentTime+i*0.09;
+      g.gain.setValueAtTime(.12,t); g.gain.exponentialRampToValueAtTime(.001,t+.18);
+      o.start(t); o.stop(t+.2);
+    });
+  }catch(e){}
+}
+
+// ============ UTILIDADES ============
+const $ = s => document.querySelector(s);
+const shuffle = a => { a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const conflicts = (a,b) => AVOID.some(p=>p.includes(a)&&p.includes(b));
+
+function makeQuestion(target, mode){
+  const pool = shuffle(TOOLS.filter(t=>t.id!==target.id && !conflicts(t.id,target.id)));
+  const opts = shuffle([target, ...pool.slice(0,4)]);
+  const kind = mode==="rush" ? (Math.random()<.5?"t2d":"d2t") : mode;
+  return {target, opts, kind};
+}
+
+// Prioriza las herramientas que más falla
+function pickTargets(n){
+  const errs = store.get("labErrors",{});
+  const weighted = shuffle(TOOLS).sort((a,b)=>(errs[b.id]||0)-(errs[a.id]||0));
+  const strong = weighted.slice(0,Math.min(4,n));
+  const rest = shuffle(TOOLS.filter(t=>!strong.includes(t))).slice(0,n-strong.length);
+  return shuffle([...strong,...rest]);
+}
+
+// ============ ESTADO ============
+let S = {};
+
+// ============ PANTALLAS ============
+function home(){
+  clearInterval(S.timer);
+  const name = store.get("labName",profile.role === 'guest' ? profile.name : "");
+  $("#app").innerHTML = `
+    <h1><span>LAB TOOLS</span></h1>
+    <div class="sub">${name?`¡Hola, ${esc(name)}! `:""}¿Cuánto sabes? 🧪</div>
+    <button class="btn big" onclick="start('t2d')">🔤 Herramienta → definición<small>Te doy la herramienta, eliges su definición · 10 preguntas</small></button>
+    <button class="btn big" onclick="start('d2t')">📝 Definición → herramienta<small>Te doy la definición, eliges la herramienta · 10 preguntas</small></button>
+    <button class="btn big pink" onclick="start('rush')">⏱️ Contrarreloj 60 s<small style="opacity:.85">Mezcla de las dos. ¡Todas las que puedas!</small></button>
+    <div class="row">
+      <button class="btn" onclick="ranking('t2d')">🏆 Ranking</button>
+      <button class="btn" onclick="study()">📖 Repasar</button>
+    </div>
+    <div class="foot">Aciertos rápidos y rachas dan más puntos 🔥</div>`;
+}
+
+function start(mode){
+  S = {mode, i:0, score:0, hits:0, streak:0, best:0, wrong:[], locked:false};
+  if(mode==="rush"){
+    S.left = MODES.rush.secs;
+    S.queue = shuffle(TOOLS);
+    S.timer = setInterval(()=>{
+      S.left--; const el=$("#tleft");
+      if(el){ el.textContent=S.left+" s"; el.classList.toggle("low",S.left<=10); }
+      if(S.left<=0){ clearInterval(S.timer); finish(); }
+    },1000);
+  } else {
+    S.queue = pickTargets(MODES[mode].n);
+  }
+  next();
+}
+
+function next(){
+  S.locked=false;
+  if(S.mode!=="rush" && S.i>=S.queue.length) return finish();
+  if(S.mode==="rush" && S.i>=S.queue.length){ S.queue=S.queue.concat(shuffle(TOOLS)); }
+  const target = S.queue[S.i];
+  S.q = makeQuestion(target, S.mode);
+  S.t0 = Date.now();
+  render();
+}
+
+function render(){
+  const {target,opts,kind} = S.q;
+  const m = MODES[S.mode];
+  const progress = S.mode==="rush" ? `<span class="pill timer" id="tleft">${S.left} s</span>`
+                                    : `<span class="pill">${S.i+1}/${m.n}</span>`;
+  const pct = S.mode==="rush" ? (S.left/m.secs*100) : (S.i/m.n*100);
+  const prompt = kind==="t2d"
+    ? `<div class="ask">¿Para qué sirve?</div><div class="emoji">${target.e}</div><div class="tool">${esc(target.name)}</div>`
+    : `<div class="ask">¿Qué herramienta es?</div><div class="def">“${esc(target.def)}”</div>`;
+  const buttons = opts.map(o=>`<button class="btn opt ${kind==="d2t"?"tooln":""}" data-id="${o.id}" onclick="answer('${o.id}',this)">
+      ${kind==="t2d" ? esc(o.def) : esc(o.name)}</button>`).join("");
+  $("#app").innerHTML = `
+    <div class="top">
+      <button class="pill" style="font:inherit;font-weight:800" onclick="if(confirm('¿Salir de la partida?'))home()">✕</button>
+      ${progress}
+      <span class="pill" id="sc">${S.score} pts</span>
+    </div>
+    ${S.mode!=="rush"?`<div class="bar"><i style="width:${pct}%"></i></div>`:`<div style="height:8px"></div>`}
+    <div class="q">${prompt}</div>
+    ${buttons}
+    <div class="feedback" id="fb">${S.streak>=2?`<span class="streak">🔥 Racha ×${S.streak}</span>`:""}</div>
+    <div id="nextwrap"></div>`;
+}
+
+function answer(id, el){
+  if(S.locked) return; S.locked=true;
+  const {target} = S.q;
+  const ok = id===target.id;
+  document.querySelectorAll(".opt").forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.id===target.id) b.classList.add("ok");
+  });
+  const errs = store.get("labErrors",{});
+  if(ok){
+    const secs=(Date.now()-S.t0)/1000;
+    const speed = Math.max(0, Math.round(50 - secs*5));     // hasta +50 si respondes rápido
+    S.streak++; S.best=Math.max(S.best,S.streak);
+    const mult = S.streak>=5?3:S.streak>=3?2:1;
+    const pts = (100+speed)*mult;
+    S.score+=pts; S.hits++;
+    errs[target.id] = Math.max(0,(errs[target.id]||0)-1);
+    beep("ok");
+    $("#fb").innerHTML = `✅ +${pts}${mult>1?` <span class="streak">(×${mult} racha 🔥)</span>`:""}`;
+    $("#sc").textContent = S.score+" pts"; $("#sc").classList.add("flash");
+    store.set("labErrors",errs);
+    S.i++;
+    setTimeout(next, S.mode==="rush"?450:900);
+  } else {
+    el.classList.add("bad");
+    S.streak=0;
+    S.wrong.push(target);
+    errs[target.id]=(errs[target.id]||0)+2;
+    store.set("labErrors",errs);
+    beep("bad");
+    try{ navigator.vibrate && navigator.vibrate(120); }catch(e){}
+    $("#fb").innerHTML = `❌ Era: <b>${esc(target.name)}</b>`;
+    S.i++;
+    if(S.mode==="rush"){ setTimeout(next,1100); }
+    else $("#nextwrap").innerHTML = `<button class="btn big pink center" style="text-align:center" onclick="next()">Siguiente →</button>`;
+  }
+}
+
+function finish(){
+  clearInterval(S.timer);
+  const total = S.mode==="rush" ? S.i : MODES[S.mode].n;
+  const ratio = total? S.hits/total : 0;
+  const stars = ratio>=.9?3:ratio>=.7?2:ratio>=.4?1:0;
+  const msg = ["¡A repasar! 💪","¡Vas bien! 👍","¡Muy bien! 🎉","¡Crack del laboratorio! 🧪✨"][stars];
+  const ranks = store.get("labRank",{});
+  const list = ranks[S.mode]||[];
+  const isTop = S.score>0 && (list.length<10 || S.score>list[list.length-1].s);
+  beep("end");
+  if(stars>=2 || isTop) confetti();
+
+  const uniq = [...new Map(S.wrong.map(t=>[t.id,t])).values()];
+  $("#app").innerHTML = `
+    <h2 class="center">${msg}</h2>
+    <div class="stars">${"⭐".repeat(stars)}${"☆".repeat(3-stars)}</div>
+    <div class="score-big">${S.score}</div>
+    <div class="center"><b>${S.hits}/${total}</b> aciertos · mejor racha <b>${S.best}</b> 🔥</div>
+    ${isTop?`
+      <div class="list" style="margin-top:16px">
+        <p class="center" style="margin:8px 0"><b>🏆 ¡Entras en el ranking!</b></p>
+        <input type="text" id="nm" maxlength="14" placeholder="Tu nombre" value="${esc(store.get("labName",""))}">
+        <button class="btn pink big" style="text-align:center" onclick="saveRank()">Guardar</button>
+      </div>`:""}
+    ${uniq.length?`<h2>Para repasar</h2><div class="list">${uniq.map(t=>`
+      <div class="it"><b>${t.e} ${esc(t.name)}</b><div class="d">${esc(t.def)}</div></div>`).join("")}</div>`:""}
+    <div class="row">
+      <button class="btn big" onclick="start('${S.mode}')">🔁 Otra</button>
+      <button class="btn big" onclick="home()">🏠 Inicio</button>
+    </div>`;
+}
+
+function saveRank(){
+  const name = ($("#nm").value||"").trim() || "Anónimo";
+  store.set("labName",name);
+  const ranks = store.get("labRank",{});
+  const list = ranks[S.mode]||[];
+  const entry = {n:name, s:S.score, d:new Date().toLocaleDateString("es-ES"), t:Date.now()};
+  list.push(entry); list.sort((a,b)=>b.s-a.s);
+  ranks[S.mode]=list.slice(0,10);
+  store.set("labRank",ranks);
+  ranking(S.mode, entry.t);
+}
+
+function ranking(mode, highlight){
+  const ranks = store.get("labRank",{});
+  const list = ranks[mode]||[];
+  const medal = i => ["🥇","🥈","🥉"][i] || (i+1);
+  $("#app").innerHTML = `
+    <h2>🏆 Ranking</h2><p class="center" style="font-size:.85rem">Resultados de este perfil en este navegador.</p>
+    <div class="tabs">${Object.keys(MODES).map(k=>`<button class="${k===mode?"on":""}" onclick="ranking('${k}')">${MODES[k].short}</button>`).join("")}</div>
+    <div class="list">
+      ${list.length?`<table class="rank">${list.map((r,i)=>`
+        <tr class="${r.t===highlight?"me":""}"><td>${medal(i)}</td><td>${esc(r.n)}<br><small style="opacity:.55">${esc(r.d)}</small></td><td>${r.s}</td></tr>`).join("")}</table>`
+        :`<p class="center hand" style="font-size:1.3rem">Todavía nadie… ¡estrénalo! 🚀</p>`}
+    </div>
+    <button class="btn big pink" style="text-align:center" onclick="start('${mode}')">▶ Jugar ${MODES[mode].short}</button>
+    <button class="btn" style="text-align:center" onclick="home()">🏠 Inicio</button>`;
+}
+
+function study(){
+  const errs = store.get("labErrors",{});
+  const sorted = [...TOOLS].sort((a,b)=>(errs[b.id]||0)-(errs[a.id]||0));
+  $("#app").innerHTML = `
+    <h2>📖 Repasar</h2>
+    <p class="hand" style="font-size:1.15rem;margin:0 0 6px">Toca una tarjeta para ver la definición. Las que más fallas salen arriba.</p>
+    <div class="list">${sorted.map(t=>`
+      <div class="it" onclick="this.querySelector('.d').classList.toggle('hidden')" style="cursor:pointer">
+        <b>${t.e} ${esc(t.name)}</b>${(errs[t.id]||0)>0?` <small style="color:var(--bad)">● fallada</small>`:""}
+        <div class="d hidden">${esc(t.def)}</div>
+      </div>`).join("")}</div>
+    <button class="btn" style="text-align:center" onclick="home()">🏠 Inicio</button>`;
+}
+
+function confetti(){
+  const b=$("#burst"); const set=["🧪","⚗️","✨","🔬","⭐","💧"];
+  for(let i=0;i<28;i++){
+    const s=document.createElement("span");
+    s.textContent=set[i%set.length];
+    s.style.left=Math.random()*100+"vw";
+    s.style.animationDelay=Math.random()*.8+"s";
+    b.appendChild(s); setTimeout(()=>s.remove(),3200);
+  }
+}
+
+// Keep the original button handlers available after loading the authenticated profile.
+Object.assign(window, { home, start, next, answer, saveRank, ranking, study });
+home();
+})().catch(() => {
+  const app = document.getElementById('app');
+  app.textContent = 'No se pudo cargar tu perfil. Recarga la página para volver a intentarlo.';
+});
+</script>
+</body>
+</html>

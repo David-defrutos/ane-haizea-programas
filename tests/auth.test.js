@@ -23,7 +23,7 @@ function guest(name, env = environment(), origin = 'https://family.example', ext
   return worker.fetch(request('/guest', null, { method: 'POST', headers: { Origin: origin, 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ name, ...extra }).toString() }), env);
 }
 test('all asset paths require authentication and responses cannot be cached', async () => {
-  for (const path of ['/', '/portal.js', '/portal.css', '/haizea/irregular-verbs-quiz/', '/haizea/irregular-verbs-quiz/index.html', '/404.html', '/api/me']) {
+  for (const path of ['/', '/portal.js', '/portal.css', '/haizea/irregular-verbs-quiz/', '/haizea/irregular-verbs-quiz/index.html', '/programas/lab-tools-quiz/', '/programas/lab-tools-quiz/index.html', '/404.html', '/api/me']) {
     const response = await worker.fetch(request(path), environment());
     assert.equal(response.status, 303);
     assert.equal(response.headers.get('Location'), '/login');
