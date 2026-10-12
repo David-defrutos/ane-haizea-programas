@@ -58,7 +58,7 @@ async function session(request, env, users) {
   if (version !== expectedVersion) return null;
   const payload = parts.slice(0, 3).join('.');
   const valid = await crypto.subtle.verify('HMAC', await key(env.SESSION_SECRET), unhex(mac), encoder.encode(payload));
-  return valid ? { user, name: user === 'ane' ? 'Ane' : 'Haizea', role: 'member' } : null;
+  return valid ? { user, name: 'Jugadora', role: 'member' } : null;
 }
 function validGuestName(name) {
   return Array.from(name).length >= 2 && Array.from(name).length <= 24 && !/[\u0000-\u001f\u007f<>\u202a-\u202e\u2066-\u2069]/u.test(name);
@@ -130,7 +130,7 @@ async function handle(request, env) {
       if (!validGuestName(name)) return html(loginPage('Escribe un nombre o apodo de 2 a 24 caracteres, sin símbolos < o >.', 'guest'), 400);
       return redirect('/', await guestCookie(name, env));
     }
-    const user = (form.get('user') || '').toLowerCase();
+    const user = (form.get('user') || '').trim().toLowerCase();
     const password = form.get('password') || '';
     const valid = await checkPassword(password, users[USERS.includes(user) ? user : 'ane']);
     if (!USERS.includes(user) || !valid) return html(loginPage('Revisa el usuario y la contraseña.'), 401);
